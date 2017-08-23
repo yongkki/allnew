@@ -8,6 +8,9 @@ module.exports = function(sequelize, DataTypes){
     image : {
       type : DataTypes.STRING
     },
+    sequence : {
+      type : DataTypes.INTEGER
+    },
     storyId : {
       type : DataTypes.INTEGER,
       allowNull : false,

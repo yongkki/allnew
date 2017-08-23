@@ -33,8 +33,10 @@ class SignService {
   static jwtVerify(token){
     return new Promise(function(resolve, reject){
       jwt.verify(token, jwtConfig.secret, function(error, decoded){
-        if (error)
+        if (error){
+          error.status = 401;
           reject(error);
+        }
         else
           resolve(decoded);
       });

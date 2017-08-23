@@ -12,6 +12,7 @@ const newsFeedController = require('./controllers/NewsFeedController');
 const newsFeedLikeController = require('./controllers/NewsFeedLikeController');
 const newsFeedPrizeController = require('./controllers/NewsFeedPrizeController');
 const newsFeedReplyController = require('./controllers/NewsFeedReplyController');
+const newsFeedPrizeLikeController = require('./controllers/NewsFeedPrizeLikeController');
 const storyController = require('./controllers/StoryController');
 
 
@@ -33,6 +34,7 @@ app.use('/newsFeed', newsFeedController);
 app.use('/newsFeed/:newsFeedId/like', newsFeedLikeController);
 app.use('/newsFeed/:newsFeedId/prize', newsFeedPrizeController);
 app.use('/newsFeed/:newsFeedId/reply', newsFeedReplyController);
+app.use('/newsFeed/:newsFeedId/prize/:prizeId/like', newsFeedPrizeLikeController);
 app.use('/story', storyController);
 
 

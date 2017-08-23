@@ -16,9 +16,9 @@ module.exports = function(sequelize, DataTypes) {
     status: {
       type: DataTypes.INTEGER,
       allowNull: false,
-      default: 0
+      defaultValue: 0
     },
-    memeberId: {
+    memberId: {
       type: DataTypes.INTEGER,
       allowNull: false,
       field : "member_id"

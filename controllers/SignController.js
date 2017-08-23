@@ -37,6 +37,8 @@ router.post('/in', function(req, res, next) {
     });
 });
 
+
+// 로그아웃
 router.post('/out', function(req, res, next) {
   if (!req.headers.authorization) next(new CustomError("Bad Request", 400));
   SignService.out(req.headers.authorization)

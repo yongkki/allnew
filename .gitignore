@@ -113,4 +113,7 @@ $RECYCLE.BIN/
 # Config files
 config.json
 
+# image files
+images/
+
 # End of https://www.gitignore.io/api/node,macos,windows
