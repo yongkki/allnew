@@ -10,35 +10,31 @@ const router = express.Router();
 router.post('/in', function(req, res, next) {
   if (!req.body.accessToken || !req.body.fcmToken || (req.body.type != 'facebook'))
     next(new CustomError("Bad Request", 400));
-  let socialData;
+  let socialData, memberData;
   SocialService.findFacebookByAccessToken(req.body.accessToken)
     .then(function(body) {
       socialData = body;
       return MemberService.findOneBySocialIdAndSocialType(req.body.type, body.id);
     })
-    .then(function(memberData) {
-      if (!memberData) {
+    .then(function(data) {
+      if (!data) {
         socialData.fcmToken = req.body.fcmToken;
         return MemberService.create(socialData);
       } else {
+        memberData = data;
         memberData.fcmToken = req.body.fcmToken;
         return MemberService.update(memberData);
       }
     })
-    .then(function(memberData) {
-      memberData = memberData.dataValues || memberData;
-      return SignService.in(memberData);
-    })
-    .then((token) => res.send({
-      token: token
-    }))
+    .then((result) => SignService.in(Array.isArray(result) ? memberData.dataValues : result.dataValues))
+    .then((token) => res.send({token: token}))
     .catch(function(error) {
       next(new CustomError(error.message || error, error.status || 500));
     });
 });
 
-
 router.use(MiddleWare.permissionCheck);
+
 // 로그아웃
 router.post('/out', function(req, res, next) {
   SignService.out(req.memberId)
