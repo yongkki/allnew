@@ -10,8 +10,8 @@ class SignService {
   }
 
   // 로그아웃
-  static out(token) {
-    return this.jwtVerify(token).then(this.deleteRedis);
+  static out(key) {
+    return this.deleteRedis(key);
   }
 
   // 토큰 생성
@@ -56,11 +56,23 @@ class SignService {
     });
   }
 
+  // 레디스에서 로그인 정보 조회
+  static getRedis(key){
+    return new Promise(function(resolve, reject) {
+      RedisClient.get(key, function(error, result){
+        if (error)
+          reject(error);
+        else
+          resolve(result);
+      });
+    });
+  }
+
 
   // 레디스에서 로그인 정보 삭제
-  static deleteRedis(decoded){
+  static deleteRedis(key){
     return new Promise(function(resolve, reject){
-      RedisClient.del(decoded.id, function(error){
+      RedisClient.del(key, function(error){
         if (error)
           reject(error);
         else

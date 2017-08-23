@@ -4,12 +4,12 @@ const StoryImage = require('../models').StoryImage;
 class StoryService {
 
   // 사연 등록
-  static create(storyData) {
+  static create(storyData, memberId) {
     console.log(storyData);
     return Story.create({
       title: storyData.title,
       content: storyData.content,
-      memberId: storyData.memberId
+      memberId: memberId
     });
   }
 
