@@ -82,7 +82,6 @@ class NewsFeedService {
 
   // 특정 뉴스피드 특정 댓글 조회(사용자)
   static findOneReplyByNewsFeedId(replyId, memberId) {
-    console.log(replyId, memberId);
     return NewsFeedReply.findOne({
       where: {
         id: replyId,
@@ -95,7 +94,11 @@ class NewsFeedService {
 
   // 특정 뉴스피드 댓글 조회
   static findReplyByNewsFeedId(newsFeedId) {
-    return NewsFeedReply.findAll();
+    return NewsFeedReply.findAll({
+      where: {
+        newsFeedId: newsFeedId
+      }
+    });
   }
 
   // 특정 뉴스피드 댓글 등록
@@ -143,9 +146,22 @@ class NewsFeedService {
   =======================================
   */
 
-  // 특정 뉴스피드 상 조회
-  static findPrizeByNewsFeedId() {
+  // 특정 뉴스피드 상 목록 조회
+  static findPrizeByNewsFeedId(newsFeedId) {
+    return NewsFeedPrize.findAll({
+      where: {
+        newsFeedId: newsFeedId
+      }
+    });
+  }
 
+  // 특정 뉴스피드 상 등록
+  static createPrize(prizeName, newsFeedId, memberId) {
+    return NewsFeedPrize.create({
+      name: prizeName,
+      newsFeedId: newsFeedId,
+      memberId: memberId
+    });
   }
 
 }
