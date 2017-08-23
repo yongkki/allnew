@@ -17,11 +17,10 @@ router.post('/in', function(req, res, next) {
       return MemberService.findOneBySocialIdAndSocialType(req.body.type, body.id);
     })
     .then(function(memberData) {
-      if (!memberData){
+      if (!memberData) {
         socialData.fcmToken = req.body.fcmToken;
-          return MemberService.create(socialData);
-      }
-      else {
+        return MemberService.create(socialData);
+      } else {
         memberData.fcmToken = req.body.fcmToken;
         return MemberService.update(memberData);
       }

@@ -5,7 +5,6 @@ class StoryService {
 
   // 사연 등록
   static create(storyData, memberId) {
-    console.log(storyData);
     return Story.create({
       title: storyData.title,
       content: storyData.content,
@@ -17,7 +16,11 @@ class StoryService {
   static createImages(files, storyId) {
     let images = [];
     for (let i in files)
-      images.push({sequence: i, image : files[i].filename, storyId: storyId});
+      images.push({
+        sequence: i,
+        image: files[i].filename,
+        storyId: storyId
+      });
     return StoryImage.bulkCreate(images);
   }
 }
