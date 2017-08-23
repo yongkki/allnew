@@ -154,6 +154,14 @@ class NewsFeedService {
       }
     });
   }
+  // 특정 뉴스피드 특정 상 조회
+  static findPrizeById(prizeId) {
+    return NewsFeedPrize.findOne({
+      where: {
+        id: prizeId
+      }
+    });
+  }
 
   // 특정 뉴스피드 상 등록
   static createPrize(prizeName, newsFeedId, memberId) {
@@ -162,6 +170,51 @@ class NewsFeedService {
       newsFeedId: newsFeedId,
       memberId: memberId
     });
+  }
+
+
+  /*
+  =======================================
+  상 좋아요 관련
+  =======================================
+  */
+
+  // 특정 뉴스피드 특정 상 좋아요 정보 조회(사용자)
+  static findNewsFeedPrizeLike(prizeId, memberId) {
+    return NewsFeedPrizeLike.findOne({
+      where: {
+        newsFeedPrizeId: prizeId,
+        memberId: memberId
+      }
+    });
+  }
+
+  // 특정 뉴스피드 특정 상 좋아요 하기
+  static createNewsFeedPrizeLike(prizeId, memberId) {
+    return NewsFeedPrizeLike.create({
+      newsFeedPrizeId: prizeId,
+      memberId: memberId
+    }).then(NewsFeedPrize.increment('like_count', {
+      by: 1,
+      where: {
+        id: prizeId
+      }
+    }));
+  }
+
+  // 특정 뉴스피드 특정 상 좋아요 삭제
+  static deleteNewsFeedPrizeLike(prizeId, memberId) {
+    return NewsFeedPrizeLike.destroy({
+      where: {
+        newsFeedPrizeId: prizeId,
+        memberId: memberId
+      }
+    }).then(NewsFeedPrize.increment('like_count', {
+      by: -1,
+      where: {
+        id: prizeId
+      }
+    }));
   }
 
 }

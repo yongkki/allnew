@@ -12,12 +12,18 @@ module.exports = function(sequelize, DataTypes) {
     newsFeedId: {
       type: DataTypes.INTEGER,
       allowNull: false,
-      field : "news_feed_id"
+      field: "news_feed_id"
     },
     memberId: {
       type: DataTypes.INTEGER,
       allowNull: false,
-      field : "member_id"
+      field: "member_id"
+    },
+    likeCount: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      defaultValue: 0,
+      field: "like_count"
     }
   }, {
     underscored: true,
