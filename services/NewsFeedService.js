@@ -13,10 +13,10 @@ class NewsFeedService {
   }
 
   // 특정 뉴스피드 조회
-  static findById(id){
+  static findById(newsFeedId){
     return NewsFeed.findOne({
       where: {
-        id: id
+        id: newsFeedId
       }
     });
   }

@@ -4,25 +4,17 @@ const router = express.Router({mergeParams: true});
 
 // 뉴스피드 목록 조회
 router.get('/', function(req, res, next) {
-  // TODO: 유효성 체크
   NewsFeedService.findAll()
-  .then(function(rows){
-    res.send(rows);
-  })
-  .catch(function(error){
-    next(new CustomError(error.message || error, error.status || 500));
-  });
+  .then((row) => (row.length > 0) ? res.send(rows) : res.sendStatus(204))
+  .catch((error) => next(new CustomError(error.message || error, error.status || 500)));
 });
 
 // 특정 뉴스피드 조회
 router.get('/:newsFeedId', function(req, res, next) {
+  if (req.params.newsFeedId < 1) next(new CustomError('Bad Request', 400));
   NewsFeedService.findById(req.params.newsFeedId)
-  .then(function(row){
-    res.send(row);
-  })
-  .catch(function(error){
-    next(new CustomError(error.message || error, error.status || 500));
-  });
+  .then((row) => (row) ? res.send(row) : res.sendStatus(404))
+  .catch((error) => next(new CustomError(error.message || error, error.status || 500)));
 });
 
 module.exports = router;
