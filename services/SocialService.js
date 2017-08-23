@@ -8,13 +8,12 @@ class SocialService {
     return new Promise(function(resolve, reject) {
       request.get(url, function(err, res, body) {
         body = JSON.parse(body);
-        if (body.error){
+        if (body.error) {
           let error = {};
           error.message = body.error;
           error.status = 400;
           reject(error);
-        }
-        else {
+        } else {
           body.type = 'facebook';
           body.profile = body.picture.data.url;
           resolve(body);
