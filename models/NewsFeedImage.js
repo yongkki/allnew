@@ -1,5 +1,5 @@
 module.exports = function(sequelize, DataTypes) {
-  var newsFeedImage = sequelize.define('newsFeedImage', {
+  var NewsFeedImage = sequelize.define('NewsFeedImage', {
     id: {
       type: DataTypes.INTEGER,
       primaryKey: true,
@@ -23,5 +23,5 @@ module.exports = function(sequelize, DataTypes) {
     paranoid: true,
     tableName: "news_feed_image"
   });
-  return newsFeedImage;
+  return NewsFeedImage;
 };

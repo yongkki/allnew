@@ -1,5 +1,5 @@
 module.exports = function(sequelize, DataTypes){
-  var storyImage = sequelize.define('storyImage',{
+  var StoryImage = sequelize.define('StoryImage',{
     id : {
       type : DataTypes.INTEGER,
       primaryKey : true,
@@ -18,5 +18,5 @@ module.exports = function(sequelize, DataTypes){
     paranoid: true,
     tableName: "story_image"
   });
-  return storyImage;
+  return StoryImage;
 };

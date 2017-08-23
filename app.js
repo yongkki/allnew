@@ -7,7 +7,7 @@ const bodyParser = require('body-parser');
 const Raven = require('raven');
 //const ravenConfig = require('./config.json');
 
-const loginContoller = require('./controllers/LoginController');
+const signContoller = require('./controllers/SignController');
 const newsFeedController = require('./controllers/NewsFeedController');
 const newsFeedLikeController = require('./controllers/NewsFeedLikeController');
 const newsFeedPrizeController = require('./controllers/NewsFeedPrizeController');
@@ -28,7 +28,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 //app.use(Raven.requestHandler());
 
 
-app.use('/login', loginContoller);
+app.use('/sign', signContoller);
 app.use('/newsFeed', newsFeedController);
 app.use('/newsFeed/:newsFeedId/like', newsFeedLikeController);
 app.use('/newsFeed/:newsFeedId/prize', newsFeedPrizeController);

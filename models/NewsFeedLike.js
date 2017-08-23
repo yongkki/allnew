@@ -1,5 +1,5 @@
 module.exports = function(sequelize, DataTypes) {
-  var newsFeedLike = sequelize.define('newsFeedLike', {
+  var NewsFeedLike = sequelize.define('NewsFeedLike', {
     id: {
       type: DataTypes.INTEGER,
       primaryKey: true,
@@ -20,5 +20,5 @@ module.exports = function(sequelize, DataTypes) {
     paranoid: true,
     tableName: "news_feed_like"
   });
-  return newsFeedLike;
+  return NewsFeedLike;
 };

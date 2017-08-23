@@ -1,5 +1,5 @@
 module.exports = function(sequelize, DataTypes) {
-  var member = sequelize.define('member', {
+  var Member = sequelize.define('Member', {
     id : {
       type : DataTypes.INTEGER,
       primaryKey : true,
@@ -10,35 +10,38 @@ module.exports = function(sequelize, DataTypes) {
       allowNull : false
     },
     profile : {
-        type : DataTypes.STRING,
-        allowNull : false
+        type : DataTypes.STRING
     },
     socialType : {
-      type : DataTypes.INTEGER,
-      field : "social_type"
+      type : DataTypes.STRING,
+      field : "social_type",
+      allowNull : false
     },
     socialId : {
-      type : DataTypes.INTEGER,
-      field : "social_id"
+      type : DataTypes.BIGINT,
+      field : "social_id",
+      allowNull : false
     },
     fcmToken : {
       type : DataTypes.STRING,
-      allowNull : false,
       field : "fcm_token"
     },
     newspeedReplyNotice : {
       type : DataTypes.INTEGER,
       allowNull : false,
+      defaultValue : 1,
       field : "newspeed_reply_notice"
     },
     reviewCompleteNotice : {
       type : DataTypes.INTEGER,
       allowNull : false,
+      defaultValue : 1,
       field : "review_complete_notice"
     },
     uploadCompleteNotice : {
       type : DataTypes.INTEGER,
       allowNull : false,
+      defaultValue : 1,
       field : "upload_complete_notice"
     }
   }, {
@@ -46,5 +49,5 @@ module.exports = function(sequelize, DataTypes) {
     paranoid : true,
     tableName : "member"
   });
-  return member;
+  return Member;
 };

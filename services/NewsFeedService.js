@@ -9,6 +9,7 @@ class NewsFeedService {
 
   // 뉴스피드 목록 조회
   static findAll(){
+    return NewsFeed.findAll();
   }
 
   // 특정 뉴스피드 조회

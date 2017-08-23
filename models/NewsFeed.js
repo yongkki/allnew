@@ -1,5 +1,5 @@
 module.exports = function(sequelize, DataTypes) {
-  var newsFeed = sequelize.define('newsFeed', {
+  var NewsFeed = sequelize.define('NewsFeed', {
     id: {
       type: DataTypes.INTEGER,
       primaryKey: true,
@@ -13,8 +13,21 @@ module.exports = function(sequelize, DataTypes) {
       type: DataTypes.STRING,
       allowNull: false
     },
-    informant: {
-      type: DataTypes.STRING,
+    memberId : {
+      type : DataTypes.INTEGER,
+      field : "member_id",
+      allowNull: false
+    },
+    likeCount : {
+      type : DataTypes.INTEGER,
+      field : "like_count",
+      defaultValue : 0,
+      allowNull: false
+    },
+    replyCount : {
+      type : DataTypes.INTEGER,
+      field : "reply_count",
+      defaultValue : 0,
       allowNull: false
     }
   }, {
@@ -22,5 +35,5 @@ module.exports = function(sequelize, DataTypes) {
     paranoid: true,
     tableName : "news_feed"
   });
-  return newsFeed;
+  return NewsFeed;
 };
