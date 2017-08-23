@@ -1,6 +1,6 @@
 const Story = require('../models').Story;
 const StoryImage = require('../models').StoryImage;
-
+const imagePath = require('../config.json').imagePath;
 class StoryService {
 
   // 사연 등록
@@ -18,7 +18,7 @@ class StoryService {
     for (let i in files)
       images.push({
         sequence: i,
-        image: files[i].filename,
+        image: imagePath + files[i].filename,
         storyId: storyId
       });
     return StoryImage.bulkCreate(images);
