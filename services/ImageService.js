@@ -1,6 +1,5 @@
 const multer = require('multer');
 const randomstring = require("randomstring");
-
 const storage = multer.diskStorage({
   destination: function(req, file, cb) {
     cb(null, 'images/');
@@ -11,19 +10,11 @@ const storage = multer.diskStorage({
 });
 
 class ImageService {
-
   // 이미지 업로드
-  static uploads(req, res, fieldName) {
-    return new Promise(function(resolve, reject) {
-      multer({
+  static uploads(fieldName) {
+    return multer({
         storage: storage
-      }).array(fieldName, 20)(req, res, function(error) {
-        if (error)
-          reject(error);
-        else
-          resolve();
-      });
-    });
+      }).array(fieldName, 20);
   }
 }
 

@@ -8,9 +8,8 @@ const router = express.Router();
 router.use(MiddleWare.permissionCheck);
 
 // 사연 제보
-router.post('/', function(req, res, next) {
-  ImageService.uploads(req, res, 'images')
-    .then(StoryService.create(req.body, req.memberId))
+router.post('/', ImageService.uploads('images'), function(req, res, next) {
+  StoryService.create(req.body, req.memberId)
     .then((story) => StoryService.createImages(req.files, story.dataValues.id))
     .then(() => res.sendStatus(201))
     .catch(function(error) {
