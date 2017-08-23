@@ -13,8 +13,12 @@ class NewsFeedService {
   }
 
   // 특정 뉴스피드 조회
-  static findById(){
-
+  static findById(id){
+    return NewsFeed.findOne({
+      where: {
+        id: id
+      }
+    });
   }
 
   // 특정 뉴스피드 좋아요 조회
