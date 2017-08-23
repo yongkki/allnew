@@ -3,6 +3,7 @@ const MemberService = require('../services/MemberService.js');
 const SocialService = require('../services/SocialService.js');
 const SignService = require('../services/SignService.js');
 const CustomError = require('../libs/CustomError.js');
+const MiddleWare = require('./MiddleWare.js');
 const router = express.Router();
 
 // 로그인
@@ -16,11 +17,10 @@ router.post('/in', function(req, res, next) {
       return MemberService.findOneBySocialIdAndSocialType(req.body.type, body.id);
     })
     .then(function(memberData) {
-      if (!memberData){
+      if (!memberData) {
         socialData.fcmToken = req.body.fcmToken;
-          return MemberService.create(socialData);
-      }
-      else {
+        return MemberService.create(socialData);
+      } else {
         memberData.fcmToken = req.body.fcmToken;
         return MemberService.update(memberData);
       }
@@ -38,10 +38,10 @@ router.post('/in', function(req, res, next) {
 });
 
 
+router.use(MiddleWare.permissionCheck);
 // 로그아웃
 router.post('/out', function(req, res, next) {
-  if (!req.headers.authorization) next(new CustomError("Bad Request", 400));
-  SignService.out(req.headers.authorization)
+  SignService.out(req.memberId)
     .then(() => res.sendStatus(204))
     .catch(function(error) {
       next(new CustomError(error.message || error, error.status || 500));
