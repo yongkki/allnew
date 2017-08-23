@@ -11,11 +11,13 @@ module.exports = function(sequelize, DataTypes) {
     },
     newsFeedId: {
       type: DataTypes.INTEGER,
-      allowNull: false
+      allowNull: false,
+      field : "news_feed_id"
     },
     memberId: {
       type: DataTypes.INTEGER,
-      allowNull: false
+      allowNull: false,
+      field : "member_id"
     }
   }, {
     underscored: true,
