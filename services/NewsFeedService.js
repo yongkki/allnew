@@ -11,10 +11,14 @@ class NewsFeedService {
   static findAll() {
     return NewsFeed.findAll();
   }
-
+  
   // 특정 뉴스피드 조회
-  static findById() {
-
+  static findById(newsFeedId){
+    return NewsFeed.findOne({
+      where: {
+        id: newsFeedId
+      }
+    });
   }
 
   static findNewsFeedLike(newsFeedId, memberId) {
