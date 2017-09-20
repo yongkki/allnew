@@ -3,7 +3,7 @@ const Member = require('../models').Member;
 class MemberService {
 
   // 회원정보 조회
-  static findOneBySocialIdAndSocialType(socialType, socialId) {
+  findOneBySocialIdAndSocialType(socialType, socialId) {
     return Member.findOne({
       where: {
         socialType: socialType,
@@ -13,7 +13,7 @@ class MemberService {
   }
 
   // 회원가입
-  static create(socialData) {
+  create(socialData) {
     return Member.create({
       nickname: socialData.name,
       profile: socialData.profile,
@@ -23,7 +23,7 @@ class MemberService {
     });
   }
 
-  static update(memberData) {
+  update(memberData) {
     return Member.update({
       fcmToken: memberData.fcmToken
     }, {

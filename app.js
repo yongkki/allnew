@@ -5,7 +5,7 @@ const logger = require('morgan');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const Raven = require('raven');
-const ravenConfig = require('./config.json').raven;
+// const ravenConfig = require('./config.json').raven;
 
 const signContoller = require('./controllers/SignController');
 const newsFeedController = require('./controllers/NewsFeedController');
@@ -19,14 +19,14 @@ const storyController = require('./controllers/StoryController');
 
 const app = express();
 
-Raven.config(ravenConfig.DSN).install();
+// Raven.config(ravenConfig.DSN).install();
 
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
-app.use(Raven.requestHandler());
+// app.use(Raven.requestHandler());
 
 
 app.use('/sign', signContoller);
@@ -39,7 +39,7 @@ app.use('/story', storyController);
 
 
 
-app.use(Raven.errorHandler());
+// app.use(Raven.errorHandler());
 
 app.use(function(req, res, next) {
   let err = new Error('Not Found');

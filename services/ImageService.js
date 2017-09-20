@@ -11,7 +11,7 @@ const storage = multer.diskStorage({
 
 class ImageService {
   // 이미지 업로드
-  static uploads(fieldName) {
+  uploads(fieldName) {
     return multer({
         storage: storage
       }).array(fieldName, 20);

@@ -4,44 +4,48 @@ const SocialService = require('../services/SocialService.js');
 const SignService = require('../services/SignService.js');
 const CustomError = require('../libs/CustomError.js');
 const MiddleWare = require('./MiddleWare.js');
+let middleWare = new MiddleWare();
 const router = express.Router();
 
 // 로그인
-router.post('/in', function(req, res, next) {
+router.post('/in', (req, res, next) => {
   if (!req.body.accessToken || !req.body.fcmToken || (req.body.type != 'facebook'))
-    next(new CustomError("Bad Request", 400));
+    return next(new CustomError("Bad Request", 400));
+  let memberService = new MemberService(),
+    socialService = new SocialService(),
+    signService = new SignService();
+
   let socialData, memberData;
-  SocialService.findFacebookByAccessToken(req.body.accessToken)
-    .then(function(body) {
+  socialService.findFacebookByAccessToken(req.body.accessToken)
+    .then((body) => {
       socialData = body;
-      return MemberService.findOneBySocialIdAndSocialType(req.body.type, body.id);
+      return memberService.findOneBySocialIdAndSocialType(req.body.type, body.id);
     })
-    .then(function(data) {
+    .then((data) => {
       if (!data) {
         socialData.fcmToken = req.body.fcmToken;
-        return MemberService.create(socialData);
+        return memberService.create(socialData);
       } else {
         memberData = data;
         memberData.fcmToken = req.body.fcmToken;
-        return MemberService.update(memberData);
+        return memberService.update(memberData);
       }
     })
-    .then((result) => SignService.in(Array.isArray(result) ? memberData.dataValues : result.dataValues))
-    .then((token) => res.send({token: token}))
-    .catch(function(error) {
-      next(new CustomError(error.message || error, error.status || 500));
-    });
+    .then((result) => signService.in(Array.isArray(result) ? memberData.dataValues : result.dataValues))
+    .then((token) => res.send({
+      token: token
+    }))
+    .catch(next);
 });
 
-router.use(MiddleWare.permissionCheck);
+router.use(middleWare.permissionCheck);
 
 // 로그아웃
-router.post('/out', function(req, res, next) {
-  SignService.out(req.memberId)
+router.post('/out', (req, res, next) => {
+  let signService = new SignService();
+  signService.out(req.memberId)
     .then(() => res.sendStatus(204))
-    .catch(function(error) {
-      next(new CustomError(error.message || error, error.status || 500));
-    });
+    .catch(next);
 });
 
 module.exports = router;

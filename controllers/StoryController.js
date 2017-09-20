@@ -3,18 +3,17 @@ const StoryService = require('../services/StoryService.js');
 const ImageService = require('../services/ImageService.js');
 const CustomError = require('../libs/CustomError.js');
 const MiddleWare = require('./MiddleWare.js');
+let middleWare = new MiddleWare();
 const router = express.Router();
 
-router.use(MiddleWare.permissionCheck);
+router.use(middleWare.permissionCheck);
 
 // 사연 제보
-router.post('/', ImageService.uploads('images'), function(req, res, next) {
-  StoryService.create(req.body, req.memberId)
-    .then((story) => StoryService.createImages(req.files, story.dataValues.id))
+router.post('/', new ImageService().uploads('images'), (req, res, next) => {
+  let storyService = new StoryService();
+  storyService.create(req.body, req.files, req.memberId)
     .then(() => res.sendStatus(201))
-    .catch(function(error) {
-      next(new CustomError(error.message || error, error.status || 500));
-    });
+    .catch(next);
 });
 
 module.exports = router;
