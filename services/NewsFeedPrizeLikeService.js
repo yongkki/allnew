@@ -21,30 +21,42 @@ class NewsFeedPrizeLikeService {
 
   // 특정 뉴스피드 특정 상 좋아요 하기
   create(prizeId, memberId) {
-    return NewsFeedPrizeLike.create({
-      newsFeedPrizeId: prizeId,
-      memberId: memberId
-    }).then(NewsFeedPrize.increment('like_count', {
-      by: 1,
-      where: {
-        id: prizeId
-      }
-    }));
+    return Models.sequelize.transaction((transaction) => {
+      return NewsFeedPrizeLike.create({
+        newsFeedPrizeId: prizeId,
+        memberId: memberId
+      }, {
+        transaction: transaction
+      }).then(() => NewsFeedPrize.increment('like_count', {
+        by: 1,
+        where: {
+          id: prizeId
+        },
+        transaction: transaction
+      }));
+    });
+
   }
 
   // 특정 뉴스피드 특정 상 좋아요 삭제
   delete(prizeId, memberId) {
-    return NewsFeedPrizeLike.destroy({
-      where: {
-        newsFeedPrizeId: prizeId,
-        memberId: memberId
-      }
-    }).then(NewsFeedPrize.increment('like_count', {
-      by: -1,
-      where: {
-        id: prizeId
-      }
-    }));
+
+    return Models.sequelize.transaction((transaction) => {
+      return NewsFeedPrizeLike.destroy({
+        where: {
+          newsFeedPrizeId: prizeId,
+          memberId: memberId
+        },
+        transaction: transaction
+      }).then(() => NewsFeedPrize.increment('like_count', {
+        by: -1,
+        where: {
+          id: prizeId
+        },
+        transaction: transaction
+      }));
+    });
+
   }
 
 }

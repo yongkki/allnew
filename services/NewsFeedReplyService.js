@@ -34,16 +34,23 @@ class NewsFeedReplyService {
 
   // 특정 뉴스피드 댓글 등록
   create(content, newsFeedId, memberId) {
-    return NewsFeedReply.create({
-      content: content,
-      newsFeedId: newsFeedId,
-      memberId: memberId
-    }).then(NewsFeed.increment('reply_count', {
-      by: 1,
-      where: {
-        id: newsFeedId
-      }
-    }));
+
+    return Models.sequelize.transaction((transaction) => {
+      return NewsFeedReply.create({
+        content: content,
+        newsFeedId: newsFeedId,
+        memberId: memberId
+      }, {
+        transaction: transaction
+      }).then(() => NewsFeed.increment('reply_count', {
+        by: 1,
+        where: {
+          id: newsFeedId
+        },
+        transaction: transaction
+      }));
+    });
+
   }
 
   // 특정 뉴스피드 댓글 수정
@@ -59,16 +66,22 @@ class NewsFeedReplyService {
 
   // 특정 뉴스피드 댓글 삭제
   delete(replyId, newsFeedId) {
-    return NewsFeedReply.destroy({
-      where: {
-        id: replyId
-      }
-    }).then(NewsFeed.increment('reply_count', {
-      by: -1,
-      where: {
-        id: newsFeedId
-      }
-    }));
+
+    return Models.sequelize.transaction((transaction) => {
+      return NewsFeedReply.destroy({
+        where: {
+          id: replyId
+        },
+        transaction: transaction
+      }).then(() => NewsFeed.increment('reply_count', {
+        by: -1,
+        where: {
+          id: newsFeedId
+        },
+        transaction: transaction
+      }));
+    });
+
   }
 
 }
