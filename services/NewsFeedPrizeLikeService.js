@@ -1,5 +1,6 @@
 const NewsFeedPrize = require('../models').NewsFeedPrize;
 const NewsFeedPrizeLike = require('../models').NewsFeedPrizeLike;
+const Models = require('../models');
 
 class NewsFeedPrizeLikeService {
 

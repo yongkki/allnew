@@ -1,5 +1,6 @@
 const NewsFeed = require('../models').NewsFeed;
 const NewsFeedReply = require('../models').NewsFeedReply;
+const Models = require('../models');
 
 class NewsFeedReplyService {
 

@@ -1,5 +1,5 @@
 const NewsFeed = require('../models').NewsFeed;
-const NewsFeedLike = require('../models').NewsFeedLike;
+const Models = require('../models');
 
 class NewsFeedLikeService {
 
@@ -22,7 +22,7 @@ class NewsFeedLikeService {
 
   // 특정 뉴스피드 좋아요 하기
   create(newsFeedId, memberId) {
-    
+
     return Models.sequelize.transaction((transaction) => {
       return NewsFeedLike.create({
         newsFeedId: newsFeedId,
