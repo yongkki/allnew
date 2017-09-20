@@ -6,48 +6,41 @@ const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const Raven = require('raven');
 // const ravenConfig = require('./config.json').raven;
-
-const signContoller = require('./controllers/SignController');
-const newsFeedController = require('./controllers/NewsFeedController');
-const newsFeedLikeController = require('./controllers/NewsFeedLikeController');
-const newsFeedPrizeController = require('./controllers/NewsFeedPrizeController');
-const newsFeedReplyController = require('./controllers/NewsFeedReplyController');
-const newsFeedPrizeLikeController = require('./controllers/NewsFeedPrizeLikeController');
-const storyController = require('./controllers/StoryController');
+// Raven.config(ravenConfig.DSN).install();
 
 
 
 const app = express();
 
-// Raven.config(ravenConfig.DSN).install();
 
 app.use(logger('dev'));
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.urlencoded({
+  extended: false
+}));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 // app.use(Raven.requestHandler());
 
 
-app.use('/sign', signContoller);
-app.use('/newsFeed', newsFeedController);
-app.use('/newsFeed/:newsFeedId/like', newsFeedLikeController);
-app.use('/newsFeed/:newsFeedId/prize', newsFeedPrizeController);
-app.use('/newsFeed/:newsFeedId/reply', newsFeedReplyController);
-app.use('/newsFeed/:newsFeedId/prize/:prizeId/like', newsFeedPrizeLikeController);
-app.use('/story', storyController);
-
+app.use('/sign', require('./controllers/signContoller'));
+app.use('/newsFeed', require('./controllers/newsFeedController'));
+app.use('/newsFeed/:newsFeedId/like', require('./controllers/newsFeedLikeController'));
+app.use('/newsFeed/:newsFeedId/prize', require('./controllers/newsFeedPrizeController'));
+app.use('/newsFeed/:newsFeedId/reply', require('./controllers/newsFeedReplyController'));
+app.use('/newsFeed/:newsFeedId/prize/:prizeId/like', require('./controllers/newsFeedPrizeLikeController'));
+app.use('/story', require('./controllers/storyController'));
 
 
 // app.use(Raven.errorHandler());
 
-app.use(function(req, res, next) {
+app.use((req, res, next) => {
   let err = new Error('Not Found');
   err.status = 404;
   next(err);
 });
 
-app.use(function(err, req, res, next) {
+app.use((err, req, res, next) => {
   res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};
   res.sendStatus(err.status || 500);
